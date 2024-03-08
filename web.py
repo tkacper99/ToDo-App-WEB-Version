@@ -17,8 +17,13 @@ st.title("Todo App")
 st.subheader("Max your productivity")
 st.write("This todo app is written in Python using the streamlit library")
 
-for todoItem in todos:
-    st.checkbox(todoItem)
+for index, todoItem in enumerate(todos):
+    checkbox = st.checkbox(todoItem, key=todoItem)
+    if checkbox:
+        todos.pop(index)
+        functions.write_todos(todos)
+        del st.session_state[todoItem]
+        st.rerun()
 
 st.text_input(label="", placeholder="Add new todo...",
               on_change=add_todo,
